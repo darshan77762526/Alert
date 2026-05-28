@@ -1,10 +1,9 @@
 name: SHEIN Stock Scanner
 on:
   schedule:
-    - cron: '*/15 * * * *' # Wakes up automatically every 15 minutes 24/7
-  workflow_dispatch: # Allows manual trigger
+    - cron: '*/15 * * * *' 
+  workflow_dispatch: 
 
-# 🟢 THE FIX: This grants the bot permission to save the tracking file (Fixes Exit Code 128)
 permissions:
   contents: write
 
@@ -20,10 +19,12 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install Requirements
-        run: pip install requests
+      - name: Install Requirements & Playwright
+        run: |
+          pip install requests playwright
+          playwright install chromium
 
-      - name: Run Scanner Script
+      - name: Run Playwright Scanner
         run: python bot.py
 
       - name: Save Tracking Data
