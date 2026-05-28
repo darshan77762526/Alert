@@ -49,7 +49,7 @@ def scan_shein_secure_api(keyword, size_filter):
         "keyword": keyword,
         "limit": "30",
         "sort": "7",              # Price: Low to High
-        "price_max": "250",       # Your specific budget cap
+        "price_max": "1000",       # Your specific budget cap
         "size_filter": size_filter
     }
     
