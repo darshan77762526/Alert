@@ -1,0 +1,32 @@
+name: SHEIN Stock Scanner
+on:
+  schedule:
+    - cron: '*/15 * * * *' # Wakes up automatically every 15 minutes 24/7
+  workflow_dispatch: # Allows manual trigger directly via mobile phone layout
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Python environment
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Requirements
+        run: pip install requests
+
+      - name: Run Scanner Script
+        run: python bot.py
+
+      - name: Save Tracking Data
+        run: |
+          git config --global user.name "GitHub Action Bot"
+          git config --global user.email "action@github.com"
+          git add sent_items.json
+          git commit -m "Update tracked items" || echo "No changes to commit"
+          git push
+          
