@@ -2,7 +2,11 @@ name: SHEIN Stock Scanner
 on:
   schedule:
     - cron: '*/15 * * * *' # Wakes up automatically every 15 minutes 24/7
-  workflow_dispatch: # Allows manual trigger directly via mobile phone layout
+  workflow_dispatch: # Allows manual trigger
+
+# 🟢 THE FIX: This grants the bot permission to save the tracking file (Fixes Exit Code 128)
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -26,7 +30,7 @@ jobs:
         run: |
           git config --global user.name "GitHub Action Bot"
           git config --global user.email "action@github.com"
-          git add sent_items.json
+          git add sent_items.json || true
           git commit -m "Update tracked items" || echo "No changes to commit"
-          git push
+          git push || echo "Nothing to push"
           
